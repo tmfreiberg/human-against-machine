@@ -1,0 +1,24 @@
+# Balanced, random rotation instead of cropping.
+name: Balanced with rotation
+description: >
+  Full 180-degree rotation with no cropping. A dermatoscope has no canonical
+  orientation, so rotation is a label-preserving transform for this domain in a
+  way it would not be for, say, handwritten digits.
+
+classes: [mel, nv, bkl, bcc, akiec, vasc, df]
+split: {train_val_ratio: 3, seed: 0, keep_first: false, stratified: true}
+
+architecture: resnet18
+freeze_strategy: last_block
+n_blocks: 1
+training: {epochs: 10, batch_size: 32, learning_rate: 0.0001}
+
+train_one_image_per_lesion: false
+validation_expansion: 3
+balance: {mel: 1000, nv: 1000, bkl: 1000, bcc: 1000, akiec: 1000, vasc: 1000, df: 1000}
+
+transform:
+  - {name: RandomRotation, degrees: 180}
+  - {name: Resize, size: [224, 224]}
+  - {name: ToTensor}
+  - {name: Normalize, mean: [0.485, 0.456, 0.406], std: [0.229, 0.224, 0.225]}

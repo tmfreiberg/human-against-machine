@@ -1,0 +1,50 @@
+# The model behind the human-versus-machine demo.
+#
+# Restricted to melanoma and nevus only. The demo asks a visitor "melanoma, or
+# mole?", and a seven-class model can answer "basal cell carcinoma" to that,
+# which is not an answer to the question. Narrowing the dataset gives a model
+# whose output space matches the question being asked, so the comparison
+# between human and machine is like for like.
+#
+# Note the chance level: two classes means guessing scores 0.500 balanced
+# accuracy, against 0.143 for the seven-class task. This model's score is NOT
+# comparable with the seven-class result and must not be presented as though
+# it were.
+name: Demo melanoma vs nevus
+description: >
+  Two-class model restricted to melanoma and melanocytic nevus, trained to back
+  the browser demo. Melanoma is roughly one lesion in ten among these two
+  classes, so balancing matters as much here as in the seven-class task.
+
+restrict:
+  dx: [mel, nv]
+
+classes: [mel, nv]
+
+split: {train_val_ratio: 3, seed: 0, keep_first: false, stratified: true}
+
+architecture: resnet18
+freeze_strategy: last_block
+n_blocks: 1
+# save_best keeps the epoch with the lowest validation loss rather than the
+# last one. Config 04 deliberately does NOT do this: its figure is the
+# project's reported result and is left on a fixed protocol.
+# This model is a public artefact with no such obligation, and the first run
+# of it overfit hard -- validation loss bottomed at epoch 3 and was 72% worse
+# by epoch 10.
+#
+# The caveat, stated because it is real: choosing an epoch by validation loss
+# and then drawing the demo image pool from that same validation split makes
+# the machine's displayed accuracy mildly optimistic. Ten epochs are still run
+# so the overfitting curve remains visible in model.losses.json.
+training: {epochs: 10, batch_size: 32, learning_rate: 0.0001, save_best: true}
+
+train_one_image_per_lesion: false
+validation_expansion: 3
+balance: {mel: 1000, nv: 1000}
+
+transform:
+  - {name: RandomCrop, size: [300, 300]}
+  - {name: Resize, size: [224, 224]}
+  - {name: ToTensor}
+  - {name: Normalize, mean: [0.485, 0.456, 0.406], std: [0.229, 0.224, 0.225]}

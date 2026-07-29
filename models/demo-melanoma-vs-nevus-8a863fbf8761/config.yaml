@@ -1,0 +1,39 @@
+name: Demo melanoma vs nevus
+description: 'Two-class model restricted to melanoma and melanocytic nevus, trained
+  to back the browser demo. Melanoma is roughly one lesion in ten among these two
+  classes, so balancing matters as much here as in the seven-class task.
+
+  '
+classes:
+- mel
+- nv
+training:
+  save_best: true
+transform:
+- name: RandomCrop
+  size:
+  - 300
+  - 300
+- name: Resize
+  size:
+  - 224
+  - 224
+- name: ToTensor
+- name: Normalize
+  mean:
+  - 0.485
+  - 0.456
+  - 0.406
+  std:
+  - 0.229
+  - 0.224
+  - 0.225
+restrict:
+  dx:
+  - mel
+  - nv
+balance:
+  mel: 1000
+  nv: 1000
+train_one_image_per_lesion: false
+validation_expansion: 3

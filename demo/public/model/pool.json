@@ -1,0 +1,1210 @@
+{
+  "run": "demo-melanoma-vs-nevus-8a863fbf8761",
+  "source": "validation split, one image per lesion",
+  "classes": [
+    "mel",
+    "nv"
+  ],
+  "images": [
+    {
+      "image_id": "ISIC_0030834",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0027168",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0027663",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0025077",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0026896",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0030391",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0026005",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0031906",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0032915",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0028916",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0024725",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025489",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0031127",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0033657",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0031670",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0024525",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0024872",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0029913",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0027286",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025239",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0032067",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025835",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0029839",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0032220",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0030536",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0033154",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0024978",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0033564",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0024846",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025806",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0031741",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0033394",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0033902",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0032836",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0025364",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0030473",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0026078",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0031576",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0029293",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0032214",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0024479",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0029397",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0026258",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0029547",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0024679",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0024805",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0029544",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025316",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0025085",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0032872",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0026892",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0033572",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0031560",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0026596",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0032718",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0034053",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0033895",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0034107",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0025648",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0028270",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0030795",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0032965",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0031778",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0026985",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0026949",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0029496",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025015",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0030083",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0031208",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0033485",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0026128",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0026618",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0024794",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0033595",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0033487",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0032319",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0033957",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0025132",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0028483",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0032684",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0033546",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0027705",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0031250",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0026583",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0032167",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025603",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0029693",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0030637",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0024653",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0024842",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0028770",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0028127",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0031500",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0026543",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0032458",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0029149",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0032420",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0028033",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0027813",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0033336",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0024485",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0031395",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0028929",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0031997",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0032733",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0031162",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0026199",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0028005",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025962",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0028596",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0031020",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025226",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0033999",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0030119",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0026926",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0032730",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0025228",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0026196",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0032685",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0028069",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0030238",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0032672",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0031890",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0032726",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0024640",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0029081",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0025245",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0026413",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0030510",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025219",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0030360",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0027927",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0028777",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0033980",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0024951",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0025850",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0024404",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0030750",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0026438",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0033121",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0032637",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0025512",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0026061",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0024701",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0030392",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0032602",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0030552",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0030798",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0030445",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0026654",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025167",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025800",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0029136",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0032950",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0027223",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0026531",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0024729",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0026475",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0030718",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025451",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0033792",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0033024",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0030653",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0032186",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0027179",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0028746",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0025524",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0031703",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0026868",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0028239",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0032521",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025927",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0030899",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0030910",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0029706",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0033602",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0027838",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0027000",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0026641",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0026976",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0028878",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0033518",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0024927",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0027799",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0031118",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0031565",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0031255",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0030681",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0027585",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0027420",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0024565",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0029718",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0031554",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0024686",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0031023",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0028519",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0034141",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0031004",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025234",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0025190",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0026758",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025186",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0029092",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0033931",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0027030",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0027171",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0028474",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0031310",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0031610",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025543",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0033914",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025904",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0024647",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0032875",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0030193",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0031177",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0029699",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0033029",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0031313",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0031878",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0028172",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0033268",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0028148",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0027104",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0024482",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0032815",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0030107",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0031931",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0031370",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0024327",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0033286",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0024820",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0028965",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0033559",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0025847",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0033878",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0027387",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0027089",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0029363",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0033754",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0026856",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0027792",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0033362",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0033607",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0028326",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0024363",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0028857",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0024792",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0030616",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0034049",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0026430",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0031915",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0027827",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0026651",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0027261",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0032036",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0027702",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0028243",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0027352",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0031186",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0029708",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0029622",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0026544",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0031006",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025880",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0028901",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0027021",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0024900",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0026447",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0031604",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0031070",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0030760",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0031404",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0029730",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0029318",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0030286",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0029961",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025153",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0030851",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0032017",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0028173",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0025282",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0031145",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025704",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0030682",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0025313",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0025728",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0030060",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0033477",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0026516",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0032137",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0032352",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0032542",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0029146",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0033143",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0026602",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0027657",
+      "dx": "nv"
+    },
+    {
+      "image_id": "ISIC_0029591",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0030417",
+      "dx": "mel"
+    },
+    {
+      "image_id": "ISIC_0025854",
+      "dx": "nv"
+    }
+  ]
+}

@@ -1,10 +1,30 @@
-# Ignore image files (too many, too large)
+# Dataset images: 10,015 dermatoscopic JPEGs, far too large for git.
+# The demo's hundred-image sample is the deliberate exception.
 *.jpg
-!/streamlit/images/*.jpg
+!/demo/public/model/images/*.jpg
 
-# Ignore .pth files (too large)
+# Model weights.
 *.pth
 
-# Ignore these folders:
-.ipynb_checkpoints
+# Python
 __pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+*.egg-info/
+build/
+dist/
+
+# Environments. uv.lock is NOT ignored -- it is the reproducibility record and
+# the file Dependabot updates.
+.venv/
+venv/
+
+# Tool caches
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Audit scratch produced by the CI audit job
+requirements-audit.txt

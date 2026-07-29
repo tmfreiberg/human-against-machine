@@ -1,0 +1,24 @@
+name: Refresh lockfile
+
+# Backstop for the known Dependabot gap: it updates uv.lock when it proposes a
+# change, but a manual edit to a constraint in pyproject.toml leaves the lock
+# stale. This regenerates it on any such edit.
+on:
+  push:
+    paths: ["pyproject.toml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  lock:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv lock
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: regenerate uv.lock"
+          file_pattern: uv.lock

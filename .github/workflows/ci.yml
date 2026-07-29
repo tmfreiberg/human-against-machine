@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+    branches: [main, update]
+  pull_request:
+  schedule:
+    # Weekly audit against newly published advisories. A vulnerability
+    # disclosed after the last commit still needs to surface.
+    - cron: "0 6 * * 1"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  UV_FROZEN: "1" # fail rather than silently re-resolving a stale lockfile
+
+jobs:
+  quality:
+    name: Lint and type-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - run: uv sync --group dev
+      - name: Ruff (lint)
+        run: uv run ruff check .
+      - name: Ruff (format)
+        run: uv run ruff format --check .
+      - name: Mypy
+        run: uv run mypy src/
+
+  test:
+    name: Tests (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      # Deliberately without the models extra: this job proves the package is
+      # usable without PyTorch, and the torch-backed tests skip cleanly.
+      - run: uv sync --group dev --extra analysis
+      - run: uv run pytest --cov --cov-report=term-missing
+
+  test-with-torch:
+    name: Tests (all extras)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      # Enable the CPU-only torch index in pyproject.toml before relying on
+      # this job at scale; the default PyPI wheel pulls several GB of CUDA.
+      - run: uv sync --group dev --all-extras
+      - run: uv run pytest
+
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - run: uv sync --group dev --all-extras
+      - name: pip-audit
+        run: |
+          uv export --format requirements-txt --no-hashes --all-extras > requirements-audit.txt
+          uv run pip-audit -r requirements-audit.txt

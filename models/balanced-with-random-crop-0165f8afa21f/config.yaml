@@ -1,0 +1,58 @@
+name: Balanced with random crop
+description: 'Adds random cropping and switches to using every image of each training
+  lesion. Validation lesions are repeated three times so that the stochastic transform
+  yields three views per lesion, which are then aggregated.
+
+  '
+classes:
+- mel
+- nv
+- bkl
+- bcc
+- akiec
+- vasc
+- df
+split:
+  train_val_ratio: 3
+  seed: 0
+  keep_first: false
+  stratified: true
+training:
+  epochs: 10
+  batch_size: 32
+  learning_rate: 0.0001
+  save_best: false
+  seed: 0
+architecture: resnet18
+freeze_strategy: last_block
+n_blocks: 1
+pretrained: true
+transform:
+- name: RandomCrop
+  size:
+  - 300
+  - 300
+- name: Resize
+  size:
+  - 224
+  - 224
+- name: ToTensor
+- name: Normalize
+  mean:
+  - 0.485
+  - 0.456
+  - 0.406
+  std:
+  - 0.229
+  - 0.224
+  - 0.225
+balance:
+  mel: 1000
+  nv: 1000
+  bkl: 1000
+  bcc: 1000
+  akiec: 1000
+  vasc: 1000
+  df: 1000
+train_one_image_per_lesion: false
+validation_expansion: 3

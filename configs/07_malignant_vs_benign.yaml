@@ -1,0 +1,56 @@
+# Binary task: malignant against benign.
+#
+# Optional, and NOT the project's headline result. Included because it is cheap
+# to run (2,000 training images per epoch, roughly ten minutes on a six-core
+# CPU) and because the comparison with the seven-class task makes a point worth
+# making in the write-up.
+#
+# ---------------------------------------------------------------------------
+# READ THIS BEFORE COMPARING THE SCORE TO THE SEVEN-CLASS SCORE
+# ---------------------------------------------------------------------------
+# Balanced accuracy has a chance level of 1/n_classes. That is 0.500 here and
+# 0.143 for the seven-class task, so the two numbers are NOT comparable.
+# Measuring skill above chance as (score - chance) / (1 - chance):
+#
+#     seven-class 0.70  ->  0.65 skill above chance
+#     binary      0.83  ->  0.65 skill above chance
+#
+# A binary model scoring 0.78 therefore looks better than the seven-class 0.70
+# while being worse. Report both numbers with their chance levels, or report
+# skill above chance.
+#
+# Collapsing classes also reduces imbalance rather than increasing it: 5.4:1
+# here against 74:1 for the seven-class task, because the rare classes are
+# absorbed into a large one instead of each needing to be recognised.
+#
+# Grouping choice: melanoma, basal cell carcinoma and actinic keratosis /
+# intraepithelial carcinoma are malignant or pre-malignant. A "melanoma versus
+# everything else" split would put bcc and akiec in the negative class, which
+# is clinically wrong.
+name: Malignant vs benign
+description: >
+  Two classes: malignant or pre-malignant (mel, bcc, akiec) against benign
+  (nv, bkl, df, vasc). Every diagnosis is covered, so there is no `other`
+  class. Reported alongside the seven-class result to illustrate that
+  balanced accuracy is not comparable across tasks with different class counts.
+
+classes:
+  malignant: [mel, bcc, akiec]
+  benign: [nv, bkl, df, vasc]
+
+split: {train_val_ratio: 3, seed: 0, keep_first: false, stratified: true}
+
+architecture: resnet18
+freeze_strategy: last_block
+n_blocks: 1
+training: {epochs: 10, batch_size: 32, learning_rate: 0.0001}
+
+train_one_image_per_lesion: false
+validation_expansion: 3
+balance: {malignant: 1000, benign: 1000}
+
+transform:
+  - {name: RandomCrop, size: [300, 300]}
+  - {name: Resize, size: [224, 224]}
+  - {name: ToTensor}
+  - {name: Normalize, mean: [0.485, 0.456, 0.406], std: [0.229, 0.224, 0.225]}

@@ -1,0 +1,39 @@
+# Automated dependency maintenance.
+#
+# This file is the actual fix for two years of unactioned security alerts:
+# everything else in Phase 1 is a one-time cleanup, this is what stops the
+# backlog re-forming.
+#
+# Two caveats, both deliberate design constraints elsewhere in the repo:
+#
+#  1. Dependabot will not propose a uv.lock upgrade for a dependency declared
+#     in pyproject.toml without a version constraint. Every direct dependency
+#     therefore carries one.
+#  2. Dependabot updates uv.lock but does not update the constraints in
+#     pyproject.toml. When a fix requires raising a ceiling (say pillow<13),
+#     that is a manual edit. The lockfile workflow regenerates the lock after
+#     any such edit.
+version: 2
+updates:
+  - package-ecosystem: "uv"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      # Low risk: batched into a single PR, generally safe to merge on green CI.
+      minor-and-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+      # Higher risk: separate PRs so each changelog gets read.
+      major:
+        patterns: ["*"]
+        update-types: ["major"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      actions:
+        patterns: ["*"]

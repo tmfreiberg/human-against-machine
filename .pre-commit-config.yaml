@@ -1,0 +1,15 @@
+# Notebook outputs are the reason 00_data_exploration.ipynb reached 19 MB and
+# became unviewable on GitHub. nbstripout removes them on commit, so the
+# repository stores the notebook's source and not its rendered images.
+repos:
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.8.1
+    hooks:
+      - id: nbstripout
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.13.3
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+      - id: ruff-format

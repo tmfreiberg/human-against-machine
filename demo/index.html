@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Can you tell melanoma from an ordinary mole? A neural network answers alongside you, running entirely in your browser.">
+<title>Human Against Machine: skin lesion classification</title>
+<!-- Inline so the page makes no request for it; the 404 was harmless but noisy. -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='11' fill='%23b45309'/><circle cx='13' cy='13' r='4' fill='%2316181d'/></svg>">
+
+<!--
+  The whole demo is this one file plus the exported model. No build step, no
+  server, no framework toolchain: the visitor's browser downloads a 10.7 MB
+  quantised ResNet-18 and runs it locally on a randomly drawn image.
+
+  That matters for honesty. The 2024 version served a CSV of precomputed
+  answers for a fixed set of 100 images, which is indistinguishable from a
+  hand-written lookup table. This runs the real network.
+-->
+<script type="importmap">
+{ "imports": {
+    "react": "https://esm.sh/react@18.3.1",
+    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client"
+} }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.20.1/dist/ort.min.js"></script>
+
+<style>
+  :root {
+    --ink: #16181d;
+    --muted: #6b7280;
+    --line: #e5e7eb;
+    --paper: #ffffff;
+    --wash: #f7f7f8;
+    --human: #2563eb;
+    --machine: #b45309;
+    --danger: #b91c1c;
+    --ok: #15803d;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font: 16px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--ink);
+    background: var(--wash);
+  }
+  main { max-width: 60rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+  h1 { font-size: 1.5rem; margin: 0 0 .35rem; letter-spacing: -.01em; }
+  .lede { color: var(--muted); margin: 0 0 1.75rem; max-width: 44rem; }
+  .board {
+    display: grid; grid-template-columns: minmax(0,1.15fr) minmax(0,1fr);
+    gap: 1.5rem; align-items: start;
+  }
+  @media (max-width: 46rem) { .board { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: .75rem; padding: 1.25rem;
+  }
+  .lesion {
+    width: 100%; aspect-ratio: 4/3; object-fit: cover;
+    border-radius: .5rem; background: var(--line); display: block;
+  }
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-top: 1rem; }
+  button {
+    font: inherit; font-weight: 600; padding: .8rem 1rem; cursor: pointer;
+    border: 1px solid var(--ink); border-radius: .5rem;
+    background: var(--paper); color: var(--ink);
+  }
+  button:hover:not(:disabled) { background: var(--ink); color: var(--paper); }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  .verdict { margin-top: 1rem; padding: .9rem 1rem; border-radius: .5rem; background: var(--wash); }
+  .verdict h3 { margin: 0 0 .5rem; font-size: .95rem; }
+  .row { display: flex; justify-content: space-between; gap: 1rem; padding: .15rem 0; }
+  .right { color: var(--danger); font-weight: 600; }
+  .right[data-correct="true"] { color: var(--ok); }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th, td { text-align: left; padding: .35rem 0; border-bottom: 1px solid var(--line); }
+  td:last-child, th:last-child { text-align: right; }
+  .score-human { color: var(--human); font-weight: 700; }
+  .score-machine { color: var(--machine); font-weight: 700; }
+  .note { color: var(--muted); font-size: .875rem; }
+  .warn {
+    margin-top: 2rem; padding: 1rem 1.25rem; border-radius: .75rem;
+    border: 1px solid #fecaca; background: #fef2f2;
+  }
+  .warn strong { color: var(--danger); }
+  footer { margin-top: 2.5rem; color: var(--muted); font-size: .8125rem; }
+  code { background: var(--wash); padding: .1rem .3rem; border-radius: .25rem; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="module">
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { createRoot } from "react-dom/client";
+
+const h = React.createElement;
+const BASE = "./public/model";
+const COMMON = { mel: "Melanoma", nv: "Mole (nevus)" };
+
+// ---------------------------------------------------------------------------
+// Preprocessing.
+//
+// This must reproduce the training transform exactly, or the deployed model is
+// not the model that was measured. Training did:
+//
+//     RandomCrop(300, 300) -> Resize(224, 224) -> ToTensor -> Normalize
+//
+// on the 600x450 originals. The served images are resized down for the web, so
+// a 300x300 crop of *those* would cover a different fraction of the lesion and
+// present a scale the network never saw. `source_size` in labels.json records
+// the original dimensions so the crop box can be scaled to match.
+// ---------------------------------------------------------------------------
+function preprocess(image, spec, canvas) {
+  const [inW, inH] = spec.input_size;
+  const [srcW, srcH] = spec.source_size ?? [image.naturalWidth, image.naturalHeight];
+  const [cropW, cropH] = spec.crop_size ?? [srcW, srcH];
+
+  // Crop box in served-image pixels, preserving the fraction training used.
+  const boxW = Math.min(image.naturalWidth, (cropW / srcW) * image.naturalWidth);
+  const boxH = Math.min(image.naturalHeight, (cropH / srcH) * image.naturalHeight);
+  const x = Math.random() * (image.naturalWidth - boxW);
+  const y = Math.random() * (image.naturalHeight - boxH);
+
+  canvas.width = inW;
+  canvas.height = inH;
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+  context.drawImage(image, x, y, boxW, boxH, 0, 0, inW, inH);
+
+  const { data } = context.getImageData(0, 0, inW, inH);
+  // NCHW float32, channel-normalised with the ImageNet statistics training used.
+  const tensor = new Float32Array(3 * inW * inH);
+  for (let p = 0, n = inW * inH; p < n; p++) {
+    for (let c = 0; c < 3; c++) {
+      tensor[c * n + p] = (data[p * 4 + c] / 255 - spec.mean[c]) / spec.std[c];
+    }
+  }
+  return new ort.Tensor("float32", tensor, [1, 3, inH, inW]);
+}
+
+function softmax(logits) {
+  const top = Math.max(...logits);
+  const exps = logits.map((v) => Math.exp(v - top));
+  const total = exps.reduce((a, b) => a + b, 0);
+  return exps.map((v) => v / total);
+}
+
+// The model is asked for several differently cropped views and the results are
+// averaged -- the same test-time augmentation the reported metrics used, where
+// each validation lesion was scored three times and aggregated.
+async function classify(session, image, spec, canvas) {
+  const views = spec.views ?? 1;
+  const summed = new Array(spec.classes.length).fill(0);
+  for (let v = 0; v < views; v++) {
+    const output = await session.run({ image: preprocess(image, spec, canvas) });
+    const probabilities = softmax(Array.from(Object.values(output)[0].data));
+    probabilities.forEach((p, i) => { summed[i] += p / views; });
+  }
+  return summed;
+}
+
+function Scoreboard({ human, machine, rounds }) {
+  const pct = (n) => (rounds ? `${Math.round((100 * n) / rounds)}%` : "—");
+  return h("table", null,
+    h("thead", null, h("tr", null,
+      h("th", null, "After " + rounds + (rounds === 1 ? " lesion" : " lesions")),
+      h("th", null, "Correct"), h("th", null, "Rate"))),
+    h("tbody", null,
+      h("tr", null,
+        h("td", { className: "score-human" }, "You"),
+        h("td", null, human), h("td", null, pct(human))),
+      h("tr", null,
+        h("td", { className: "score-machine" }, "Machine"),
+        h("td", null, machine), h("td", null, pct(machine)))));
+}
+
+function App() {
+  const [status, setStatus] = useState("Loading model…");
+  const [pool, setPool] = useState(null);
+  const [spec, setSpec] = useState(null);
+  const [current, setCurrent] = useState(null);
+  const [answer, setAnswer] = useState(null);
+  const [score, setScore] = useState({ human: 0, machine: 0, rounds: 0 });
+  const [missed, setMissed] = useState({ human: 0, machine: 0, melanomas: 0 });
+
+  const session = useRef(null);
+  const canvas = useRef(document.createElement("canvas"));
+  const imageRef = useRef(null);
+  // A shuffled deck rather than an independent random draw each round. With
+  // 300 images and independent draws, a repeat is likelier than not within
+  // about 20 rounds -- and seeing the same lesion twice makes the game feel
+  // broken and lets a player score on memory rather than judgement.
+  const deck = useRef([]);
+
+  const draw = useCallback((images) => {
+    if (deck.current.length === 0) {
+      deck.current = [...images];
+      for (let i = deck.current.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [deck.current[i], deck.current[j]] = [deck.current[j], deck.current[i]];
+      }
+    }
+    return deck.current.pop();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const [labels, poolData] = await Promise.all([
+          fetch(`${BASE}/labels.json`).then((r) => r.json()),
+          fetch(`${BASE}/pool.json`).then((r) => r.json()),
+        ]);
+        setSpec(labels);
+        setPool(poolData);
+        setStatus("Downloading network (10 MB)…");
+        session.current = await ort.InferenceSession.create(`${BASE}/model.onnx`, {
+          executionProviders: ["wasm"],
+        });
+        setStatus(null);
+        setCurrent(draw(poolData.images));
+      } catch (error) {
+        setStatus(`Could not start: ${error.message}`);
+      }
+    })();
+  }, []);
+
+  const next = useCallback(() => {
+    setAnswer(null);
+    setCurrent(draw(pool.images));
+  }, [pool, draw]);
+
+  const choose = useCallback(async (choice) => {
+    if (!current || answer) return;
+    const truth = current.dx;
+    const probabilities = await classify(session.current, imageRef.current, spec, canvas.current);
+    const machineChoice = spec.classes[probabilities.indexOf(Math.max(...probabilities))];
+
+    const humanRight = choice === truth;
+    const machineRight = machineChoice === truth;
+    setAnswer({ truth, choice, machineChoice, probabilities, humanRight, machineRight });
+    setScore((s) => ({
+      human: s.human + (humanRight ? 1 : 0),
+      machine: s.machine + (machineRight ? 1 : 0),
+      rounds: s.rounds + 1,
+    }));
+    if (truth === "mel") {
+      setMissed((m) => ({
+        human: m.human + (humanRight ? 0 : 1),
+        machine: m.machine + (machineRight ? 0 : 1),
+        melanomas: m.melanomas + 1,
+      }));
+    }
+  }, [current, answer, spec]);
+
+  if (status) return h("main", null, h("p", { className: "note" }, status));
+
+  const imageUrl = current ? `${BASE}/images/${current.image_id}.jpg` : "";
+
+  return h("main", null,
+    h("h1", null, "Human Against Machine"),
+    h("p", { className: "lede" },
+      "One dermatoscopic image at a time: melanoma, or an ordinary mole? " +
+      "A small neural network answers the same question in your browser, " +
+      "on the same image, at the same moment."),
+
+    h("div", { className: "board" },
+      h("div", { className: "card" },
+        h("img", { ref: imageRef, className: "lesion", src: imageUrl,
+                   alt: "Dermatoscopic image of a skin lesion", crossOrigin: "anonymous" }),
+        h("div", { className: "choices" },
+          h("button", { onClick: () => choose("mel"), disabled: !!answer }, "Melanoma"),
+          h("button", { onClick: () => choose("nv"), disabled: !!answer }, "Mole")),
+
+        answer && h("div", { className: "verdict" },
+          h("h3", null, "It was ", COMMON[answer.truth]),
+          h("div", { className: "row" },
+            h("span", null, "You said ", COMMON[answer.choice]),
+            h("span", { className: "right", "data-correct": String(answer.humanRight) },
+              answer.humanRight ? "correct" : "wrong")),
+          h("div", { className: "row" },
+            h("span", null, "Machine said ", COMMON[answer.machineChoice],
+              " (", Math.round(100 * Math.max(...answer.probabilities)), "% confident)"),
+            h("span", { className: "right", "data-correct": String(answer.machineRight) },
+              answer.machineRight ? "correct" : "wrong")),
+          h("button", { onClick: next, style: { marginTop: ".85rem", width: "100%" } },
+            "Next lesion"))),
+
+      h("div", { className: "card" },
+        h(Scoreboard, score),
+        missed.melanomas > 0 && h("p", { className: "note", style: { marginTop: "1rem" } },
+          `Of ${missed.melanomas} melanoma${missed.melanomas === 1 ? "" : "s"} shown so far, ` +
+          `you missed ${missed.human} and the machine missed ${missed.machine}.`),
+        h("p", { className: "note", style: { marginTop: "1rem" } },
+          "Across its full held-out set of 1,505 lesions the network scores ",
+          h("strong", null, "0.84"), " balanced accuracy, but it misses ",
+          h("strong", null, "36 of 154 melanomas"), ", roughly one in four. ",
+          "Overall accuracy of 90% hides that, because most lesions are moles."))),
+
+    h("div", { className: "warn" },
+      h("strong", null, "This is not a diagnostic tool."),
+      " It is a teaching demonstration built from a public research dataset. ",
+      "The network misses about a quarter of melanomas, and it has never seen ",
+      "skin like most of the world's: the dataset records no ethnicity or ",
+      "Fitzpatrick type, and classifiers trained on one population routinely ",
+      "underperform on another. ",
+      h("strong", null, "If a lesion concerns you, see a dermatologist.")),
+
+    h("footer", null,
+      "Images: HAM10000 (Tschandl, Rosendahl & Kittler, 2018), drawn from the ",
+      "held-out validation split, so the network never trained on any of them. ",
+      "Model: ResNet-18 fine-tuned on melanoma versus nevus, exported to ONNX and ",
+      "quantised to int8. Everything runs in your browser; nothing is uploaded."));
+}
+
+createRoot(document.getElementById("root")).render(h(App));
+</script>
+</body>
+</html>

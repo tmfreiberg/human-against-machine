@@ -1,0 +1,178 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ham10000"
+version = "0.2.0.dev0"
+description = "Skin-lesion classification on the HAM10000 dermatoscopic image dataset."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+authors = [{ name = "Tristan Freiberg" }]
+keywords = ["medical-imaging", "dermatology", "computer-vision", "pytorch"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+# Every direct dependency carries an explicit constraint. This is not
+# stylistic: Dependabot will not propose a uv.lock upgrade for a dependency
+# declared without one, so a bare "pillow" would silently recreate exactly the
+# situation this repository is being cleaned up to escape.
+#
+# The base set is deliberately small -- metadata handling and image I/O only.
+# Anything heavier is an extra, so no consumer installs more than it needs.
+dependencies = [
+    "numpy>=2.1,<3",
+    "pandas>=2.2,<3",
+    "pillow>=12.3,<13", # 12.3.0 fixes the decompression-bomb bypasses (2026-07-01)
+    "pyyaml>=6,<7",
+]
+
+[project.scripts]
+ham10000 = "ham10000.cli:main"
+ham10000-train = "ham10000.cli:train_main"
+ham10000-bench = "ham10000.cli:benchmark_main"
+
+[project.optional-dependencies]
+# Training and inference. The only place torch is required.
+models = [
+    "torch>=2.13,<3",       # 2.6+ defaults weights_only=True in torch.load
+    "torchvision>=0.20,<1", # the resolver pins this to match torch
+]
+
+# Metrics, plots, and the exploratory notebooks.
+analysis = [
+    "scikit-learn>=1.5,<2",
+    "matplotlib>=3.9,<4",
+]
+
+# Exporting a trained model for the browser demo. Needed only to produce the
+# demo assets; the deployed demo itself is static files plus an ONNX runtime
+# loaded in the visitor's browser, so nothing here is served to anyone.
+export = [
+    "onnx>=1.17,<2",
+    "onnxruntime>=1.20,<2",
+]
+
+[dependency-groups]
+dev = [
+    # Notebook tooling. ipykernel alone is enough for VS Code or PyCharm;
+    # jupyterlab is included so `uv run jupyter lab` works out of the box.
+    "ipykernel>=6.29,<7",
+    "jupyterlab>=4.2,<5",
+    "pytest>=9.0.3,<10", # below 9.0.3 carries PYSEC-2026-1845
+    "pytest-cov>=6.0,<8",
+    "ruff>=0.8,<1",
+    "mypy>=1.13,<2",
+    "pip-audit>=2.7,<3",
+    "nbstripout>=0.8,<1",
+    "pre-commit>=4,<5",
+    "pandas-stubs>=2.2",
+    "types-PyYAML>=6,<7",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ham10000"]
+
+# ---------------------------------------------------------------------------
+# uv
+# ---------------------------------------------------------------------------
+# CI and the docs build have no GPU, and the default PyPI torch wheel drags in
+# several gigabytes of CUDA libraries. Uncomment to pull CPU-only wheels on
+# Linux while leaving local GPU installs untouched.
+#
+# [[tool.uv.index]]
+# name = "pytorch-cpu"
+# url = "https://download.pytorch.org/whl/cpu"
+# explicit = true
+#
+# [tool.uv.sources]
+# torch = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]
+# torchvision = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]
+
+# ---------------------------------------------------------------------------
+# Testing
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+addopts = "--doctest-modules --strict-markers --import-mode=importlib -q"
+testpaths = ["tests", "src"]
+filterwarnings = [
+    "error",                                 # an unexpected warning fails the suite
+    "ignore::DeprecationWarning:ham10000.*", # our own shims warn on purpose
+    # onnxruntime's dynamic quantiser is deprecated upstream and resets the
+    # warnings filters internally, so a scoped catch_warnings does not hold.
+    # Matched by message rather than blanket-ignoring DeprecationWarning.
+    "ignore:The feature will be removed:DeprecationWarning",
+]
+
+[tool.coverage.run]
+source = ["ham10000"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+]
+
+# ---------------------------------------------------------------------------
+# Linting
+# ---------------------------------------------------------------------------
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+# notebooks/ is handled by nbstripout and reviewed separately.
+extend-exclude = ["notebooks"]
+
+[tool.ruff.lint]
+select = [
+    "A",   # shadowing builtins
+    "ANN", # missing annotations
+    "B",   # bugbear
+    "BLE", # blind except -- the rule that flags all 31 bare handlers
+    "C4",  # comprehensions
+    "D",   # docstrings
+    "E",
+    "W",
+    "F",
+    "I",   # import sorting
+    "N",   # PEP 8 naming -- flags `class process`, `class cnn`
+    "PTH", # prefer pathlib over os.path
+    "RUF",
+    "SIM",
+    "UP",  # pyupgrade
+]
+ignore = [
+    "D203", # incompatible with D211
+    "D213", # incompatible with D212
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.per-file-ignores]
+# Tests document themselves through their names; full docstring coverage there
+# is noise rather than signal.
+"tests/**" = ["D101", "D102", "D103", "ANN001", "ANN401"]
+# Deserialised YAML is genuinely arbitrary; `object` would need a cast at every
+# use and would not be more truthful.
+"src/ham10000/experiment.py" = ["ANN401"]
+
+# ---------------------------------------------------------------------------
+# Type checking
+# ---------------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unreachable = true
+exclude = ["notebooks/"]
+
+[[tool.mypy.overrides]]
+# These ship no type information and are not worth stubbing here.
+module = ["IPython.*", "onnxruntime.*", "torch.*", "torchvision.*", "streamlit.*", "sklearn.*", "matplotlib.*"]
+ignore_missing_imports = true
