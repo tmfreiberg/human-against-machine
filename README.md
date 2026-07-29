@@ -152,6 +152,15 @@ experiment, and its run identifier is a hash of the whole configuration, so a
 run directory names exactly one set of settings and `config.yaml` is written
 beside the artefacts it produced.
 
+## Acknowledgements
+
+This project began as a capstone for the Erdős Institute Deep Learning
+Bootcamp, Spring 2024 cohort, with
+[Bailey Forster](https://github.com/BaileyMForster) and
+[Henri Antikainen](https://github.com/hpants). Everything since has been a
+rewrite, but the original problem framing, the choice of dataset, and the
+human-against-machine idea came out of that work.
+
 ## Data and citation
 
 Tschandl, P., Rosendahl, C. & Kittler, H. (2018). The HAM10000 dataset, a large
