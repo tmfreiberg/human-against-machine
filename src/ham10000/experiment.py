@@ -32,8 +32,11 @@ from typing import Any
 import yaml
 
 from ham10000.data.splitting import SplitConfig
-from ham10000.models.architectures import Architecture, FreezeStrategy
-from ham10000.models.training import TrainingConfig
+from ham10000.models.options import (
+    Architecture,
+    FreezeStrategy,
+    TrainingConfig,
+)
 
 __all__ = ["ExperimentConfig", "build_transform", "load_config"]
 

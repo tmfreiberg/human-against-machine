@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import importlib.util
 from pathlib import Path
 
 import numpy as np
@@ -10,6 +11,13 @@ import pytest
 from PIL import Image
 
 from ham10000.cli import _format_duration, benchmark_main, train_main
+
+#: Commands that build or train a model need the `models` extra. The rest of
+#: the CLI works on tables alone, and is exercised either way.
+requires_torch = pytest.mark.skipif(
+    importlib.util.find_spec("torch") is None,
+    reason="needs the models extra",
+)
 
 
 @pytest.fixture
@@ -65,6 +73,7 @@ class TestFormatDuration:
         assert _format_duration(seconds) == expected
 
 
+@requires_torch
 class TestBenchmark:
     def test_reports_the_machine_without_a_config(
         self, capsys: pytest.CaptureFixture[str]
@@ -83,6 +92,7 @@ class TestBenchmark:
         assert "estimated duration" in capsys.readouterr().out
 
 
+@requires_torch
 class TestTrain:
     def test_smoke_run_completes_and_writes_artefacts(
         self, project: Path, config_file: Path, capsys: pytest.CaptureFixture[str]
@@ -165,6 +175,7 @@ class TestTrain:
         assert predictions["dx"].nunique() >= 1
 
 
+@requires_torch
 class TestOverwriteGuard:
     def test_completed_run_is_protected(self, project: Path, config_file: Path) -> None:
         """A finished run is a result; replacing it silently loses artefacts."""
@@ -277,6 +288,7 @@ class TestInspectionCommands:
         assert balance_main([str(config_file), "--data-root", str(project)]) == 0
         assert "factor" in capsys.readouterr().out
 
+    @requires_torch
     def test_results_reads_a_completed_run(
         self, project: Path, config_file: Path, capsys: pytest.CaptureFixture[str]
     ) -> None:
@@ -303,6 +315,7 @@ class TestInspectionCommands:
         assert "skill above chance" in output
 
 
+@requires_torch
 class TestRunPathResolution:
     def test_run_is_found_from_a_subdirectory(
         self,
@@ -346,6 +359,7 @@ class TestRunPathResolution:
             _resolve_run(Path("models/nonexistent"), project)
 
 
+@requires_torch
 class TestViewsCommand:
     def test_compares_settings_without_writing_to_the_run(
         self, project: Path, config_file: Path, capsys: pytest.CaptureFixture[str]
@@ -486,6 +500,7 @@ class TestInspectionExtras:
         assert code == 1
         assert "Unknown diagnosis" in capsys.readouterr().out
 
+    @requires_torch
     def test_checkpoint_reports_the_class_count(
         self, project: Path, config_file: Path, capsys: pytest.CaptureFixture[str]
     ) -> None:
@@ -499,6 +514,7 @@ class TestInspectionExtras:
         assert checkpoint_main([str(run / "model.pth")]) == 0
         assert "output classes: 2" in capsys.readouterr().out
 
+    @requires_torch
     def test_checkpoint_missing_file_is_reported(
         self, tmp_path: Path, capsys: pytest.CaptureFixture[str]
     ) -> None:
@@ -508,6 +524,7 @@ class TestInspectionExtras:
         assert "not found" in capsys.readouterr().out
 
 
+@requires_torch
 class TestCompareAndThresholds:
     @pytest.fixture
     def run(self, project: Path, config_file: Path) -> Path:

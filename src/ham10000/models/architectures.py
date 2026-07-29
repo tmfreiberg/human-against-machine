@@ -39,11 +39,12 @@ configuration is at least expressible again.
 from __future__ import annotations
 
 from collections.abc import Iterator
-from enum import StrEnum
 
 import torch
 from torch import nn
 from torchvision import models
+
+from ham10000.models.options import Architecture, FreezeStrategy
 
 __all__ = [
     "Architecture",
@@ -53,37 +54,6 @@ __all__ = [
     "replace_head",
     "trainable_parameters",
 ]
-
-
-class Architecture(StrEnum):
-    """Supported pretrained backbones."""
-
-    RESNET18 = "resnet18"
-    EFFICIENTNET_B0 = "efficientnet_b0"
-
-
-class FreezeStrategy(StrEnum):
-    """How much of the network to train.
-
-    Attributes
-    ----------
-    ALL:
-        Every parameter trainable. Most expressive, most prone to overfitting
-        on a dataset this size, and slowest.
-    LAST_BLOCK:
-        The final convolutional stage plus the head. The usual compromise: the
-        early layers hold generic edge and texture filters that transfer from
-        ImageNet, while the late layers hold class-specific structure worth
-        re-learning.
-    HEAD_ONLY:
-        Only the replaced classification head, i.e. linear probing on frozen
-        features. Fastest, and a genuine baseline -- it measures how much of
-        the task is solvable from ImageNet features alone.
-    """
-
-    ALL = "all"
-    LAST_BLOCK = "last_block"
-    HEAD_ONLY = "head_only"
 
 
 def replace_head(model: nn.Module, n_classes: int) -> nn.Module:
