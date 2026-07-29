@@ -1,0 +1,81 @@
+# Quarto book configuration.
+#
+# Layout: this file and index.qmd live at the repository root (Quarto requires
+# the book's home page to be index.qmd at the project root). The remaining
+# prose chapters and the bibliography live in book/; the analysis chapters are
+# the project's own notebooks, rendered in place from notebooks/.
+
+project:
+  type: book
+  output-dir: _book
+  # Run code cells from the repository root rather than from each chapter's own
+  # directory, so a path is the same whether a cell runs under Quarto or in
+  # Jupyter. Cells resolve paths through Settings anyway, which makes them
+  # independent of the working directory either way.
+  execute-dir: project
+  # demo/ is a self-contained page with its own model and images. Copy it
+  # verbatim: it is plain HTML and JavaScript, and Quarto must not render it.
+  resources:
+    - demo/
+
+book:
+  title: "Human Against Machine"
+  subtitle: "Skin lesion classification, and why you should see a dermatologist"
+  author: "Tristan Freiberg"
+  date: today
+  favicon: demo/favicon.svg
+  search: true
+  reader-mode: true
+  page-navigation: true
+  repo-url: https://github.com/tmfreiberg/human-against-machine
+  repo-actions: [source, issue]
+  sidebar:
+    style: docked
+    collapse-level: 1
+  chapters:
+    - index.qmd
+    - part: "The work"
+      chapters:
+        - notebooks/00_exploration.ipynb
+        - notebooks/01_pipeline.ipynb
+        - notebooks/02_results.ipynb
+    - part: "Try it yourself"
+      chapters:
+        - book/challenge.qmd
+    - book/references.qmd
+
+bibliography: book/references.bib
+
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    number-depth: 2
+    code-fold: show
+    code-tools: true
+    code-link: true
+    fig-align: center
+    fig-width: 7
+    fig-height: 5
+    html-math-method: mathjax
+
+execute:
+  # Quarto does not execute .ipynb files by default: it renders whatever
+  # outputs are stored in them. nbstripout removes those on every commit, so
+  # execution has to be requested explicitly or the book has no results in it.
+  enabled: true
+  # Executed results are cached in _freeze/, which is committed. CI renders
+  # from that cache, since it has neither the image set nor a trained
+  # checkpoint.
+  freeze: auto
+  warning: false
+  message: false
+
+crossref:
+  chapters: true
+  # Render equation references as "(1.2)" rather than "(Equation 1.2)".
+  eq-prefix: ""

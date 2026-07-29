@@ -1,7 +1,7 @@
 # Dataset images: 10,015 dermatoscopic JPEGs, far too large for git.
 # The demo's hundred-image sample is the deliberate exception.
 *.jpg
-!/demo/public/model/images/*.jpg
+!/streamlit/images/*.jpg
 
 # Model weights.
 *.pth
@@ -28,3 +28,11 @@ htmlcov/
 
 # Audit scratch produced by the CI audit job
 requirements-audit.txt
+
+# Quarto: _book is generated output; _freeze holds executed results and IS
+# committed, since CI cannot run the notebooks without the dataset.
+/_book/
+/_site/
+.quarto/
+/.quarto/
+**/*.quarto_ipynb

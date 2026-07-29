@@ -1,0 +1,51 @@
+---
+title: "The challenge"
+---
+
+One dermatoscopic image at a time: melanoma, or an ordinary mole? A neural
+network answers the same question, on the same image, at the same moment.
+
+Everything runs in your browser. The model is a 10 MB quantised ResNet-18
+[@he2016resnet], downloaded once and executed locally. No image and no answer
+leaves your machine.
+
+The images come from the validation split, one per lesion and balanced across
+the two classes, so the network has never trained on any of them and the game
+cannot be won by always answering "mole".
+
+::: {.column-page}
+<iframe src="../demo/index.html"
+        title="Human against machine: melanoma or mole?"
+        style="width:100%; height:1100px; border:1px solid var(--bs-border-color); border-radius:.75rem;"
+        loading="lazy">
+</iframe>
+:::
+
+[Open in a new tab](../demo/index.html){.btn .btn-outline-primary target="_blank"}
+
+## What the score means
+
+Across its full held-out set of 1,505 lesions the two-class network reaches
+0.84 balanced accuracy. On this task chance is 0.50, since there are two
+answers, so that figure is not comparable with the 0.69 reported for the
+seven-class model in the results chapter: the seven-class task has a floor of 0.14.
+
+The number that matters more is that it misses 36 of 154 melanomas, roughly one
+in four. Overall accuracy hides this, because most lesions are moles.
+
+## If you did badly
+
+Most people do. Dermatoscopic images are unfamiliar, the two classes overlap in
+appearance, and you have none of the context a clinician would have.
+
+That is the argument, not a consolation. A trained specialist with the lesion
+in front of them, your history to hand, and the option to biopsy is doing
+something categorically different from what either you or the network just
+attempted. See [the introduction](../index.qmd#sec-clinician).
+
+## If you did well
+
+Congratulations, and it still does not transfer. Judging a hundred images from
+a curated research dataset, with immediate feedback, balanced classes and no
+consequences, is not the same task as noticing that one mark on your own back
+has changed since last year.

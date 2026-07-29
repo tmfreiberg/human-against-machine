@@ -1,0 +1,96 @@
+---
+title: "Introduction"
+---
+
+::: {.callout-important}
+## This is not a diagnostic tool
+
+Nothing here can tell you whether a lesion is dangerous. If something on your
+skin concerns you, see a doctor. That is the whole point of this project, and
+the rest of it is an argument for why.
+:::
+
+## Where I am from
+
+<!-- PERSONAL: Queensland. The skin cancer capital of the world. What that
+looked like growing up: sunscreen as routine, hats at school, the ads, knowing
+people who had things cut out. The ambient awareness that a mole is something
+you get looked at. Two or three paragraphs, first person, concrete. -->
+
+<!-- PERSONAL: Then Canada. Less sun, and correspondingly less of that ambient
+awareness. What surprised you. The point is not that Canadians are careless but
+that the background level of vigilance is calibrated to the local risk, and
+people move. -->
+
+## What this project is
+
+I trained a small neural network to classify skin lesions from dermatoscopic
+images, using the HAM10000 dataset [@tschandl2018ham10000]. It is a learning
+project. The model is modest and the results are honest rather than impressive:
+on a seven-class problem it reaches a balanced accuracy of 0.69, where guessing
+would score 0.14.
+
+More usefully, it misses about two melanomas in five, and calls roughly one in
+five of them an ordinary mole.
+
+I have written up the whole thing rather than only the parts that worked. The
+three chapters that follow cover what is in the dataset and what is awkward
+about it, every stage of the pipeline and why each decision was made, and what
+the trained model actually does. The reasoning matters more than the number.
+
+## The name
+
+HAM10000 stands for *Human Against Machine with 10000 training images*
+[@tschandl2018ham10000]. The dataset was assembled with the comparison in mind,
+and the [challenge chapter](book/challenge.qmd) makes it literal: you are shown a
+lesion, you say melanoma or mole, and the network answers the same question at
+the same moment, running in your browser.
+
+<!-- PERSONAL: your own experience of playing it. Did you beat it? How did it
+feel to be unsure? One short paragraph, honest. -->
+
+Most people do not beat it by much. That is the interesting part, and it cuts
+in a direction people do not expect.
+
+## Why a bad classifier still makes the point {#sec-clinician}
+
+It would be easy to read a mediocre model as a reason for scepticism about the
+technology. I think the opposite conclusion is available, and more useful.
+
+If a small network trained on ten thousand images can hold its own against you,
+then your own unaided judgement about a mark on your skin is not worth much
+either. Neither of you should be making this call.
+
+And a dermatologist is not doing a better version of what either of you just
+did. Looking at a photograph of a lesion is a fraction of the actual task.
+A dermatologist:
+
+- examines the lesion under magnification with a dermatoscope, in person, with
+  control over lighting and angle;
+- knows your history, your family history, your skin type, your history of
+  sunburn;
+- can see the rest of your skin, and judge whether a lesion looks different
+  from your other lesions, which is often the informative comparison;
+- palpates it, and asks whether it has changed, itched, or bled;
+- can photograph it and look again in three months, so that change over time
+  becomes evidence;
+- and when unsure, does not have to decide at all. They biopsy, and the
+  question is settled by a pathologist.
+
+That last point is the one an image classifier cannot reach. The model must
+answer. A clinician can say *I do not know yet, let us find out*, and then find
+out.
+
+<!-- PERSONAL: optional close. What you would want a reader to actually do
+after reading this. Something small and specific, in your voice. -->
+
+## How to read this
+
+Each chapter stands alone.
+[Exploration](notebooks/00_exploration.ipynb) is about the dataset and needs no machine
+learning background. [The pipeline](notebooks/01_pipeline.ipynb) is the technical core.
+[Results](notebooks/02_results.ipynb) is what the model does and what it fails at.
+[The challenge](book/challenge.qmd) is the game.
+
+The code is on [GitHub](https://github.com/tmfreiberg/human-against-machine),
+along with a command-line tool that reproduces every figure and table here.
