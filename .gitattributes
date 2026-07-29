@@ -1,0 +1,12 @@
+# Quarto compares stored results against the source; line-ending conversion
+# would make the cache look stale on a different platform and trigger a
+# re-execution that CI cannot perform.
+_freeze/** -text
+
+# Notebooks are JSON and nbstripout writes LF. Leave them alone.
+*.ipynb -text
+
+# Keep shell scripts and YAML LF everywhere.
+*.sh text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
