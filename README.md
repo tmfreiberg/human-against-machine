@@ -1,6 +1,6 @@
 # Human Against Machine: skin lesion classification
 
-**[Play the demo](https://tmfreiberg.github.io/human-against-machine/challenge.html)**: one
+**[Play the demo](https://tmfreiberg.github.io/human-against-machine/book/challenge.html)**: one
 dermatoscopic image at a time, melanoma or an ordinary mole? A neural network
 answers the same question in your browser, on the same image, at the same
 moment.
