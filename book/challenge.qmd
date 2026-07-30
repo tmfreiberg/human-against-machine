@@ -13,13 +13,39 @@ The images come from the validation split, one per lesion and balanced across
 the two classes, so the network has never trained on any of them and the game
 cannot be won by always answering "mole".
 
-::: {.column-page}
-<iframe src="../demo/index.html"
+<iframe id="challenge"
+        src="../demo/index.html"
         title="Human against machine: melanoma or mole?"
-        style="width:100%; height:1100px; border:1px solid var(--bs-border-color); border-radius:.75rem;"
+        style="width:100%; height:900px; border:1px solid var(--bs-border-color); border-radius:.75rem;"
         loading="lazy">
 </iframe>
-:::
+
+```{=html}
+<script>
+// The demo is served from the same origin, so its height can be read directly
+// and the iframe sized to fit. Without this the frame needs a fixed height,
+// which is either too short (nested scrollbar) or too tall (dead space), and
+// changes as the scoreboard fills up.
+(function () {
+  const frame = document.getElementById("challenge");
+  const fit = () => {
+    try {
+      const body = frame.contentWindow.document.body;
+      frame.style.height = body.scrollHeight + 32 + "px";
+    } catch (e) {
+      /* different origin: leave the fallback height in place */
+    }
+  };
+  frame.addEventListener("load", () => {
+    fit();
+    // The scoreboard grows as rounds are played, so watch for it.
+    try {
+      new ResizeObserver(fit).observe(frame.contentWindow.document.body);
+    } catch (e) { /* older browser: the load-time fit still applies */ }
+  });
+})();
+</script>
+```
 
 [Open in a new tab](../demo/index.html){.btn .btn-outline-primary target="_blank"}
 
@@ -41,7 +67,7 @@ appearance, and you have none of the context a clinician would have.
 That is the argument, not a consolation. A trained specialist with the lesion
 in front of them, your history to hand, and the option to biopsy is doing
 something categorically different from what either you or the network just
-attempted. See [the introduction](../index.qmd#sec-clinician).
+attempted. See [the introduction](../index.qmd#sec-not-the-lesion).
 
 ## If you did well
 

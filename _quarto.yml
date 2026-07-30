@@ -20,7 +20,7 @@ project:
 
 book:
   title: "Human Against Machine"
-  subtitle: "Skin lesion classification, and why you should see a dermatologist"
+  subtitle: "Skin lesion classification, and why you should get your skin checked"
   author: "Tristan Freiberg"
   date: today
   favicon: demo/favicon.svg

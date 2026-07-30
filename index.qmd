@@ -1,96 +1,180 @@
 ---
 title: "Introduction"
+number-sections: false
 ---
 
 ::: {.callout-important}
 ## This is not a diagnostic tool
 
-Nothing here can tell you whether a lesion is dangerous. If something on your
-skin concerns you, see a doctor. That is the whole point of this project, and
-the rest of it is an argument for why.
+Nothing here can tell you whether a lesion is dangerous. If something on your skin concerns you, see a doctor, and ask for a referral to a dermatologist if you are at higher risk. That is the whole point of this project, and the rest of it is an argument for why.
 :::
 
-## Where I am from
+## What this is
 
-<!-- PERSONAL: Queensland. The skin cancer capital of the world. What that
-looked like growing up: sunscreen as routine, hats at school, the ads, knowing
-people who had things cut out. The ambient awareness that a mole is something
-you get looked at. Two or three paragraphs, first person, concrete. -->
+I trained a small neural network to classify seven types of skin lesion from dermatoscopic images, and a separate binary model for an interactive melanoma-versus-mole challenge. It is a learning project.
 
-<!-- PERSONAL: Then Canada. Less sun, and correspondingly less of that ambient
-awareness. What surprised you. The point is not that Canadians are careless but
-that the background level of vigilance is calibrated to the local risk, and
-people move. -->
+The model is not good. That turns out to be the useful part. If you struggle to beat a mediocre classifier at telling a mole from a melanoma in a dermatoscopic image, that is a good reason not to trust your unaided judgement about a mark on your own skin. The [challenge chapter](book/challenge.qmd) lets you find out how difficult the distinction is.
+
+The rest of this introduction is why the subject interests me.
+
+## The skin cancer capital of the world
+
+I spent the first half of my life in the skin cancer capital of the world. Which region holds that dubious honour? A hint: look for extreme ultraviolet indices and a large, fair-skinned, Anglo-Celtic population who like to stand about in the sun all day playing cricket, surfing and swimming. Queensland, Australia's Sunshine State.
+
+Almost every Australian of my generation remembers Sid the Seagull singing [Slip! Slop! Slap!](https://www.cancer.org.au/cancer-information/causes-and-prevention/sun-safety/campaigns-and-events/slip-slop-slap-seek-slide) The Anti-Cancer Council of Victoria's campaign, as it then was, ran nationally, and something has changed since: mean mole counts among Australian children fell by 47% over a study period running from 1992 to 2016, which the researchers attribute plausibly to reduced childhood sun exposure [@abc2026moles]. That matters because naevus count is among the strongest predictors of melanoma risk. A meta-analysis of forty-six studies put the relative risk at 6.89 for people with 101 to 120 common moles against those with fewer than fifteen, and at 6.36 for five atypical moles against none [@gandini2005naevi]. I wish I had half as many as I do. Even halved they would be numerous, and far too many to keep track of. How long has that spot on my arm been there? Never mind the ones on my back, which I cannot see at all.
+
+My father had a melanoma, caught and removed early because he was looking. He has also had basal cell and squamous cell carcinomas frozen and excised, with skin grafts and the rest of it, so many times I've lost count. I've therefore been avoiding the sun as far as practicable for as long as I can remember, except for a couple of occasions when I was badly sunburnt. Anyone who has not stood under a UV index of 13 may not appreciate how fast it burns. Through the heat I wore long sleeves and trousers, and even took to carrying an umbrella as a parasol.
+
+## Then Montréal
+
+Before I left Brisbane, a dermatologist went over my many lesions once a year. That kind of surveillance has been hard to replicate in colder climes. It took a while in Montréal to find a medical dermatologist who would do the same. Until then I was at pains to make healthcare providers understand what having spent the first three decades of my life in Queensland meant. Melanoma incidence there runs about 40% above the Australian national rate [@scpq2023], and at least two in three Australians are diagnosed with some form of skin cancer during their lifetime [@cancercouncil2023incidence]. I also have a family history of melanoma, more moles than I can count, and a few severe sunburns as a teenager. 
+
+::: {#tbl-uv}
+
+```{=html}
+<style>
+/* WHO UV index exposure categories. Explicit text colour so the cells stay
+   legible in dark mode, which would otherwise invert the foreground against
+   these fixed backgrounds. */
+.uv td, .uv th { padding: .35rem .5rem; text-align: center; font-variant-numeric: tabular-nums; }
+.uv th:first-child, .uv td:first-child { text-align: left; font-weight: 600; }
+.uv td span { display: block; border-radius: .25rem; padding: .3rem .1rem; color: #16181d; }
+.uv .low  { background: #a8e05f; }  /* 1-2   low */
+.uv .mod  { background: #fdd74b; }  /* 3-5   moderate */
+.uv .high { background: #fe9b57; }  /* 6-7   high */
+.uv .vhi  { background: #fe6a69; }  /* 8-10  very high */
+.uv .ext  { background: #a97abc; }  /* 11+   extreme */
+.uv-key { margin-top: .5rem; font-size: .8125rem; display: flex; gap: .4rem; flex-wrap: wrap; }
+.uv-key span { border-radius: .25rem; padding: .15rem .5rem; color: #16181d; }
+</style>
+
+<table class="uv">
+<tr><th>Brisbane</th>
+<td><span class="ext">12<br>Jan</span></td>
+<td><span class="ext">11<br>Feb</span></td>
+<td><span class="ext">11<br>Nov</span></td>
+<td><span class="ext">11<br>Dec</span></td>
+<td><span class="vhi">9<br>Mar</span></td>
+<td><span class="vhi">9<br>Oct</span></td>
+<td><span class="high">7<br>Apr</span></td>
+<td><span class="high">7<br>Sep</span></td>
+<td><span class="mod">5<br>May</span></td>
+<td><span class="mod">5<br>Aug</span></td>
+<td><span class="mod">4<br>Jun</span></td>
+<td><span class="mod">4<br>Jul</span></td>
+</tr>
+<tr><th>Montréal</th>
+<td><span class="vhi">10<br>Jun</span></td>
+<td><span class="vhi">9<br>Jul</span></td>
+<td><span class="vhi">9<br>Aug</span></td>
+<td><span class="vhi">9<br>May</span></td>
+<td><span class="high">7<br>Apr</span></td>
+<td><span class="high">7<br>Sep</span></td>
+<td><span class="mod">5<br>Oct</span></td>
+<td><span class="mod">5<br>Mar</span></td>
+<td><span class="mod">3<br>Nov</span></td>
+<td><span class="mod">3<br>Feb</span></td>
+<td><span class="low">2<br>Jan</span></td>
+<td><span class="low">1<br>Dec</span></td>
+</tr>
+</table>
+
+<div class="uv-key">
+  <span class="low">1&ndash;2 low</span>
+  <span class="mod">3&ndash;5 moderate</span>
+  <span class="high">6&ndash;7 high</span>
+  <span class="vhi">8&ndash;10 very high</span>
+  <span class="ext">11+ extreme</span>
+</div>
+```
+
+Average daily maximum UV index by month, each city ordered from strongest to weakest, with the World Health Organization's exposure categories. Brisbane is aggregated over several years [@cancercouncil2024uv]; Montréal covers only February 2022 to January 2023 [@weatherstats2023uv]. This is illustrative rather than climatological: the two series cover different periods, and each city is ranked separately, so columns should not be read as month-to-month comparisons.
+:::
+
+Canada’s lower ultraviolet burden helps explain its lower melanoma incidence, and that is good news for Canadians. Using the same world age-standardisation, GLOBOCAN estimates melanoma incidence at 38.5 per 100,000 in Australia against 14.7 in Canada, a factor of 2.62 [@globocan2024au; @globocan2024ca].
+
+The mortality figures do not follow suit. Australia loses 2.4 people per 100,000 to melanoma and Canada 1.3, a factor of only 1.85 [@globocan2024au; @globocan2024ca]. Australia diagnoses far more melanoma without a proportionate excess of deaths.
+
+One plausible reading is that Australia finds melanoma earlier, and I think there is something to it, though the ratio alone cannot establish it. Mortality in any year does not arise only from that year's diagnoses, so this is not a case-fatality rate: it is affected by earlier incidence, by the age structure of the population, by which subtypes are being found, and by treatment. Some of the gap will be diagnostic rather than clinical: the threshold at which a pathologist calls a lesion melanoma has shifted over time and varies between observers, which is why "diagnostic drift" and "overcalling" are established terms in this literature [@sheerin2025overdiagnosis]. I come back to that below. What the ratio does show is that Australia diagnoses melanoma more than two and a half times as often as Canada while losing not quite twice as many people to it. Something has to account for that, and earlier detection is only one candidate among several.
+
+The diagnostic figures lean the same way, with the same difficulty. Of Australian melanomas with a known Breslow thickness in 2021, 68.4% were no more than 1 mm thick and only 8.1% exceeded 4 mm; five-year relative survival was near 100% for the thinnest group against about 66% for those over 4 mm [@aihw2026melanoma]. A population-based Ontario cohort of 6,414 patients diagnosed between 2007 and 2012 was 71.0% stage I, 18.8% stage II, 9.3% stage III and 0.8% stage IV under the eighth-edition staging system, with five-year melanoma-specific survival of 98.4%, 82.5%, 66.4% and 14.4% respectively [@hynes2022tnm8]. Most melanoma is found early in both countries, and perhaps a little earlier in Australia. But I am not comparing like with like. Breslow thickness is one component of stage rather than a substitute for it, the periods and staging systems differ, and as far as I can tell Canada does not publish a current harmonised national distribution of melanoma stage or thickness.
+
+Overall five-year survival comes out at roughly 94% in Australia and 90% in Canada [@aihw2026melanoma; @ccs2024survival]. Australia reports relative survival and Canada net survival, which are related but not identical measures, so I would not read four percentage points as a difference between the two countries.
+
+Australia's falling mortality, its predominance of thin lesions, and its declining incidence among the generations who grew up with *Slip! Slop! Slap!* do together suggest that prevention and early detection have made a difference [@aihw2026melanoma; @cancercouncil2024slipslop]. How much of a difference, I cannot say, and I cannot separate it from how closely people are being watched or from how much treatment has improved. Treatment has improved a great deal: in the CheckMate 067 trial of advanced melanoma, median overall survival at a minimum of ten years' follow-up was 71.9 months with nivolumab plus ipilimumab and 36.9 months with nivolumab alone, against 19.9 months with ipilimumab alone [@wolchok2025checkmate].
+
+None of this settles the comparison, and I do not think it needs to. The better evidence that awareness helps is Australia against its own past. Four things moved over the decades in which the campaigns ran: children have fewer moles, incidence has fallen in younger cohorts, mortality has been declining since 2011, and most melanomas found today are thin ones [@abc2026moles; @aihw2026melanoma].
+
+The AIHW lists other things that changed over the same decades, including the regulation of solariums and reductions in how much time children spend outdoors [@aihw2026melanoma]. I am not sure those are really alternatives. Commercial solariums were banned across Australia from January 2015 after a long campaign by Cancer Council and by people with melanoma, most prominently Clare Oliver, who made television advertisements from her hospital bed at 26 and died weeks later [@cancercouncil2025notan]. By the time the ban passed, 76% of Australian adults supported it. Schools introduced no-hat-no-play rules, built shade over their playgrounds and stopped holding sports carnivals in the middle of the day. If children spend less time in the sun, some of that is because institutions rearranged themselves around a risk they had been persuaded to take seriously.
+
+That is the version of awareness I think actually matters, and it is not mainly about individuals remembering a jingle. It is about a risk becoming common knowledge, so that schools change their timetables, parliaments pass laws, and a hairdresser is willing to mention something to a client (see below).
+
+None of which means the message has landed everywhere. Commercial solariums were banned in January 2015, but private ownership was never regulated, and devices marketed as "collariums" are now sold as a healthy alternative while emitting UVA. Cancer Council's own survey found that over two million Australians attempted to get a suntan in the previous year, one in five of those aged 15 to 24, and that almost 1.5 million had been sunburnt in the week before being asked. Barely half used three or more forms of sun protection at peak UV, and among young people it was under 40% [@cancercouncil2025solarium].
+
+So the campaigns changed a great deal and did not change everything, which is roughly what one should expect. The Australian evidence is not a story about a problem being solved. It is a story about how much difference sustained public attention makes to a risk that has not gone anywhere.
+
+I noticed all this from the outside, which is probably why I noticed it at all. Having grown up somewhere that talks about skin cancer constantly and then moved somewhere that does not, the difference in ambient attention was obvious to me in a way it would not have been to someone who had only ever lived in one of them. The numbers are at least consistent with that difference mattering, and I shouldn't claim more than that. I did not find a study that cleanly isolates the effect of Australian public awareness from everything else that differs between the two countries, and I am not sure such a study is possible: a national public-health culture is not a discrete intervention you can randomise. Better-targeted awareness in Canada, particularly among people at higher risk, seems likely to help, and on the Australian evidence it might help a good deal.
+
+## What awareness looks like
+
+Whatever Australia is doing, dermatologists cannot be doing all of it, because there are nowhere near enough of them. Canada has just over 800 for a population of 40 million, which the Canadian Dermatology Association calls a critical shortage, with average waits of five to six months. Australia is better supplied per head, at 2.5 per 100,000 against Canada's 1.9, but not by much, and both are far behind Germany at 7.7 or France at 6.1 [@cda2026gap].
+
+Set those against the incidence figures and the picture inverts. Australia has 2.5 dermatologists per 100,000 people facing 38.5 melanomas per 100,000; Canada has 1.9 facing 14.7. Per case of melanoma there are roughly half as many Australian dermatologists as Canadian ones. That is a crude population-level ratio rather than an estimate of anybody's caseload: general practitioners, surgeons and skin cancer physicians handle different proportions of the work in the two systems. So most Australian skin does not get looked at by a dermatologist, and cannot. What has been built instead is a set of overlapping ways for something to get noticed and then referred: general practitioners who see enough skin cancer to recognise it, skin-check clinics, mole mapping, decades of public campaigns, and, even hairdressers.
+
+In 2024 the ABC reported on a Newcastle programme that trains hairdressers to recognise suspicious skin changes. One participant had urged two clients to have unusual markings checked, and both "came back positive" [@abc2024hairdresser]. The idea is useful precisely because it costs almost nothing: hairdressers are already looking closely at parts of the scalp that their clients cannot easily see. Nobody is proposing that hairdressers replace dermatologists, and the whole point of the scheme is that it catches things opportunistically, in a place where nobody was otherwise looking. That seems to me the right way to think about most detection: not a single reliable method, but a lot of overlapping chances to notice.
+
+## What I do about it
+
+I eventually found a medical dermatologist in Montréal, and I see him once a year. He uses FotoFinder to map and track my lesions over time, which is something no person could do by memory for the number I have. At each visit he examines about fifty lesions with a dermatoscope. I can tell him about the new things, like the scaly patch under my eye that I can feel but not see. He compares a lesion against its neighbours, which a single cropped photograph cannot support. He can feel it. He can ask me how long it has been there and whether it has bled, and set that against my history and against however many thousands of lesions he has looked at before. And when he is not sure, he does the thing that settles it: a shave biopsy. The reports have all come back atypical naevi so far. I have a couple of keloid scars to show for it, which is a small price for peace of mind.
+
+There is a live debate about overdiagnosis in melanoma, and it took me a while to understand what it is actually about, because it is routinely pointed at the wrong thing. Overdiagnosis is not misdiagnosis. It occurs when a lesion correctly diagnosed as melanoma would have caused no harm had it been left undetected [@sheerin2025overdiagnosis]. Australia is where the argument is sharpest, partly because the skin check workforce there has grown to include nurses, nurse practitioners, general practitioners, surgeons, skin cancer doctors and dermatologists, with quite variable levels of training in melanoma detection. Estimates of the scale of cancer overdiagnosis in Australia are not small [@glasziou2020overdiagnosis].
+
+Notice what the definition requires: that the lesion would have caused no harm had it been left alone. Once it is excised, nobody can know what it was going to do. Sheerin and colleagues are explicit about the consequence and address it to clinicians: overdiagnosis is a population estimate, a statistical inference drawn from rising incidence without a matching rise in morbidity or mortality, and it cannot be proven for any individual [@sheerin2025overdiagnosis]. They add that because the estimates come from population data, they inevitably fold in incorrect diagnoses as well, so the figure conflates overdiagnosis with overcalling, which is a separate problem about where pathologists set their thresholds.
+
+Population evidence is exactly what you want for setting screening intervals, biopsy thresholds and guidelines. What it cannot do is tell my dermatologist whether this particular changing lesion is one of the harmless ones. That is not a limitation anyone can engineer away; it is what the definition means.
+
+This also bears on the incidence and mortality figures earlier. Melanomas that would never have harmed anyone still count as diagnoses and never appear in the mortality statistics, so overdiagnosis widens the gap between the two rates on its own, without any early-detection effect at all. It is one of the several things I cannot separate out, and it is being documented in Australia in particular, which makes it a live possibility rather than a hypothetical one.
+
+In any case, the aggregate cannot settle an individual case. I grew up under a UV index that could reach 13, I burnt badly more than once, my father had a melanoma, and I have more moles than I can count. Population averages describe groups, not particular people, and a screening interval designed around average risk cannot be applied mechanically without accounting for individual risk. Nor does the risk tolerance built into it. Somebody else deciding how many unnecessary biopsies are acceptable across a population has not thereby decided how many are acceptable to me. My tolerance for a benign excision is high; my tolerance for a melanoma nobody looked at is zero. Those are not symmetric errors, and my tolerance for each should be part of the decision.
+
+This is the point of the distinction between a dermatologist and an imaging service. An automated comparison system has only its images. A well-run surveillance service has rather more than that, and mine has a dermatologist in it: he is not generating biopsies from photographs, he is deciding, with a dermatoscope in his hand, my history in front of him, and years of clinical experience behind him, which of about fifty lesions needs a tissue diagnosis. And when he cannot tell, he obtains one, which is the option a photograph does not have. I pay for the imaging out of pocket, so the calculation is mine, and it is a trivial sum next to two years of immunotherapy.
+
+None of which requires me to take on faith that the imaging is an assistant rather than a substitute. Hassani et al. report two cases from exactly this kind of surveillance, using the same system I am photographed with. In the first, a woman with a previous melanoma in situ returned for follow-up total body photography after five years; the detection software flagged nothing, and the general practitioner operating it noticed that one lesion had very slightly enlarged. It was a melanoma in situ. In the second, a woman with more than two hundred naevi, six previous melanomas and a father who died of metastatic melanoma at thirty, the software again flagged nothing, and the registered nurse noticed a change in size. That one was invasive [@hassani2023tbp].
+
+Their conclusion is that careful side-by-side examination of the images by a person is a prudent complement to the software, which is a polite way of saying the software missed two melanomas that people caught.
+
+The same paper reports two figures that explain why this is hard. About one melanoma in ten is featureless, showing no diagnostic dermatoscopic criteria at all. And in a controlled study of lesions under surveillance, 59.2% of those eventually excised had no dermatoscopic features of malignancy at the time of removal: they came out because comparing sequential images side by side showed the lesion had changed [@hassani2023tbp].
+
+That second figure is the one I keep coming back to. For most of those excisions, no single photograph supplied the reason to act. The reason was the difference between photographs taken years apart.
+
+## Which brings me back to the project  {#sec-not-the-lesion}
+
+There is a coincidence in this that I did not expect when I started. The HAM10000 images were collected over twenty years from two sites: the Department of Dermatology at the Medical University of Vienna, and the skin cancer practice of Cliff Rosendahl in Queensland [@tschandl2018ham10000]. So some fraction of the lesions this model was trained on are Queensland skin, photographed in the state I grew up in.
+
+The name is theirs too. HAM10000 stands for *Human Against Machine with 10000 training images* [@tschandl2018ham10000]: the dataset was assembled with the comparison in mind, and the [challenge chapter](book/challenge.qmd) makes it literal. You are shown a lesion, you say melanoma or mole, and the network answers the same question at the same moment, running in your browser.
+
+This is a small learning exercise, and I would not expect a model like this to approach an experienced dermatologist. I am also sceptical of the headline results in which a network beats a panel of clinicians, not because I think the numbers are faked but because the comparison is not the one that matters. Those studies give the clinicians what the model gets: a cropped image of a lesion, alone, with no patient in front of them, nothing to feel, no history, no neighbouring moles to compare against, no chance to look again in three months, and no option to biopsy. Under those conditions the clinician is being asked to do the model's job rather than their own. That a machine wins tells us something about pattern recognition in images and very little about diagnosis.
+
+Rosendahl's textbook has an example that shows the limit clearly. One lesion, photographed under non-polarised and polarised dermatoscopy: the caption reports that polarising-specific white lines are the only clue to malignancy in an invasive melanoma arising in a congenital naevus, and that they are not seen under non-polarised light [@rosendahl2019dermatoscopy].
+
+Which view you get is a choice the examiner makes. Modern dermatoscopes generally offer both polarised and non-polarised views, and non-polarised imaging requires contact with the skin through a fluid interface. The two modes show different things, and the shiny white lines that polarised mode reveals are not a minor clue: in meta-analysis they carry an odds ratio of 6.7 for melanoma, equal to the highest of any dermatoscopic feature [@whybrew2022polarized]. They are also angle-dependent, so the dermatoscope has to be rotated to bring them out.
+
+Worse, whether they appear at all can depend on which instrument is in the examiner's hand. Whybrew and colleagues photographed a single pigmented lesion on a woman's ankle with six different dermatoscopes and two cameras, rotating each one in polarised mode to get the strongest display they could. Five instruments showed the shiny white lines. The sixth, the Heine DELTA 30, did not: its polarised images were essentially identical to its non-polarised ones. The lesion was a superficial spreading melanoma in situ [@whybrew2022polarized].
+
+So a photograph of a lesion is evidence about the lesion, not the lesion itself. It is a record of what one examiner chose to capture, in one mode, at one angle, with one instrument, on one camera. A model handed that photograph inherits every one of those decisions and cannot see past them. If the clue lives in a view it was not given, no amount of parameters or training data will recover it, because the signal is not in the input. Every accuracy figure in this book is an accuracy figure for one photograph of one lesion, and the photograph is not the lesion.
 
 ## What this project is
 
-I trained a small neural network to classify skin lesions from dermatoscopic
-images, using the HAM10000 dataset [@tschandl2018ham10000]. It is a learning
-project. The model is modest and the results are honest rather than impressive:
-on a seven-class problem it reaches a balanced accuracy of 0.69, where guessing
-would score 0.14.
-
-More usefully, it misses about two melanomas in five, and calls roughly one in
-five of them an ordinary mole.
-
-I have written up the whole thing rather than only the parts that worked. The
-three chapters that follow cover what is in the dataset and what is awkward
-about it, every stage of the pipeline and why each decision was made, and what
-the trained model actually does. The reasoning matters more than the number.
-
-## The name
-
-HAM10000 stands for *Human Against Machine with 10000 training images*
-[@tschandl2018ham10000]. The dataset was assembled with the comparison in mind,
-and the [challenge chapter](book/challenge.qmd) makes it literal: you are shown a
-lesion, you say melanoma or mole, and the network answers the same question at
-the same moment, running in your browser.
-
-<!-- PERSONAL: your own experience of playing it. Did you beat it? How did it
-feel to be unsure? One short paragraph, honest. -->
-
-Most people do not beat it by much. That is the interesting part, and it cuts
-in a direction people do not expect.
-
-## Why a bad classifier still makes the point {#sec-clinician}
-
-It would be easy to read a mediocre model as a reason for scepticism about the
-technology. I think the opposite conclusion is available, and more useful.
-
-If a small network trained on ten thousand images can hold its own against you,
-then your own unaided judgement about a mark on your skin is not worth much
-either. Neither of you should be making this call.
-
-And a dermatologist is not doing a better version of what either of you just
-did. Looking at a photograph of a lesion is a fraction of the actual task.
-A dermatologist:
-
-- examines the lesion under magnification with a dermatoscope, in person, with
-  control over lighting and angle;
-- knows your history, your family history, your skin type, your history of
-  sunburn;
-- can see the rest of your skin, and judge whether a lesion looks different
-  from your other lesions, which is often the informative comparison;
-- palpates it, and asks whether it has changed, itched, or bled;
-- can photograph it and look again in three months, so that change over time
-  becomes evidence;
-- and when unsure, does not have to decide at all. They biopsy, and the
-  question is settled by a pathologist.
-
-That last point is the one an image classifier cannot reach. The model must
-answer. A clinician can say *I do not know yet, let us find out*, and then find
-out.
-
-<!-- PERSONAL: optional close. What you would want a reader to actually do
-after reading this. Something small and specific, in your voice. -->
+I trained a small neural network to classify skin lesions from dermatoscopic images, using the HAM10000 dataset [@tschandl2018ham10000]. The main seven-class classifier reaches a balanced accuracy of 0.69, where uniform guessing would score about 0.14. More usefully, it misses about two melanomas in five and classifies roughly one in five as an ordinary mole. The interactive challenge uses a separate binary classifier trained specifically to distinguish melanoma from melanocytic naevi. I have written up the whole thing rather than only the parts that worked. The three analytical chapters cover the dataset and its limitations, the pipeline and its design choices, and the trained model’s behaviour. A fourth, interactive chapter turns the human-machine comparison into a challenge. The reasoning matters more than the number.
 
 ## How to read this
 
-Each chapter stands alone.
-[Exploration](notebooks/00_exploration.ipynb) is about the dataset and needs no machine
-learning background. [The pipeline](notebooks/01_pipeline.ipynb) is the technical core.
-[Results](notebooks/02_results.ipynb) is what the model does and what it fails at.
-[The challenge](book/challenge.qmd) is the game.
+Each chapter stands alone. [Exploration](notebooks/00_exploration.ipynb) is about the dataset and needs no machine learning background. [The pipeline](notebooks/01_pipeline.ipynb) is the technical core. [Results](notebooks/02_results.ipynb) is what the model does and what it fails at. [The challenge](book/challenge.qmd) is the game. The code is on [GitHub](https://github.com/tmfreiberg/human-against-machine), along with a command-line tool that reproduces every figure and table here.
 
-The code is on [GitHub](https://github.com/tmfreiberg/human-against-machine),
-along with a command-line tool that reproduces every figure and table here.
+## Conclusion
+
+Which brings me to the only part of this that might actually matter to anyone reading it.
+
+Stay out of the midday sun. Slip, slop, slap (and seek and slide). Look at your own skin about once a month, and get someone else to look at the parts you cannot see. If something is new, or changing, or unlike your other marks, go to a doctor. If you are at higher risk, ask for a referral to a dermatologist, and keep asking. Advocate for yourself, because nobody else is tracking the mole on your back.
+
+And if you would like to see how hard this is from an image alone, the [challenge](book/challenge.qmd) is one click away.

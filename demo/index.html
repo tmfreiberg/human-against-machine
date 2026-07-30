@@ -51,7 +51,7 @@
     display: grid; grid-template-columns: minmax(0,1.15fr) minmax(0,1fr);
     gap: 1.5rem; align-items: start;
   }
-  @media (max-width: 46rem) { .board { grid-template-columns: 1fr; } }
+  @media (max-width: 56rem) { .board { grid-template-columns: 1fr; } }
   .card {
     background: var(--paper); border: 1px solid var(--line);
     border-radius: .75rem; padding: 1.25rem;
@@ -79,6 +79,11 @@
   .score-human { color: var(--human); font-weight: 700; }
   .score-machine { color: var(--machine); font-weight: 700; }
   .note { color: var(--muted); font-size: .875rem; }
+  .tally {
+    margin-top: 1rem; padding: .75rem .9rem; border-radius: .5rem;
+    background: #fef2f2; border: 1px solid #fecaca; font-size: .9rem;
+  }
+  .tally strong { color: var(--danger); }
   .warn {
     margin-top: 2rem; padding: 1rem 1.25rem; border-radius: .75rem;
     border: 1px solid #fecaca; background: #fef2f2;
@@ -288,9 +293,17 @@ function App() {
 
       h("div", { className: "card" },
         h(Scoreboard, score),
-        missed.melanomas > 0 && h("p", { className: "note", style: { marginTop: "1rem" } },
-          `Of ${missed.melanomas} melanoma${missed.melanomas === 1 ? "" : "s"} shown so far, ` +
-          `you missed ${missed.human} and the machine missed ${missed.machine}.`),
+        missed.melanomas > 0 && h("div", { className: "tally" },
+          `Of ${missed.melanomas} melanoma${missed.melanomas === 1 ? "" : "s"} shown so far, you missed `,
+          h("strong", null, String(missed.human)),
+          " and the machine missed ",
+          h("strong", null, String(missed.machine)),
+          ".",
+          (missed.human > 0 || missed.machine > 0) &&
+            h("div", { style: { marginTop: ".4rem" } },
+              "A missed melanoma is the error that matters: it is the one that "
+              + "gets sent home."),
+        ),
         h("p", { className: "note", style: { marginTop: "1rem" } },
           "Across its full held-out set of 1,505 lesions the network scores ",
           h("strong", null, "0.84"), " balanced accuracy, but it misses ",
