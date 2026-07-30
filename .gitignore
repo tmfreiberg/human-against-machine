@@ -29,9 +29,9 @@ htmlcov/
 # Audit scratch produced by the CI audit job
 requirements-audit.txt
 
-# Quarto: _book is generated output; _freeze holds executed results and IS
-# committed, since CI cannot run the notebooks without the dataset.
+# Quarto
 /_book/
+/_freeze/
 /_site/
 .quarto/
 /.quarto/
