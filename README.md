@@ -63,7 +63,7 @@ that.
 Requires Python 3.12 and [uv](https://docs.astral.sh/uv/).
 
 ```bash
-git clone https://github.com/<user>/human-against-machine
+git clone https://github.com/tmfreiberg/human-against-machine.git
 cd human-against-machine
 uv sync --group dev --all-extras
 ```
