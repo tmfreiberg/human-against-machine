@@ -1344,7 +1344,10 @@ def predict_main(argv: list[str] | None = None) -> int:
     )
     columns = scheme.probability_columns
     scored[columns] = scored[columns].round(4)
-    scored["predicted"] = scored[columns].idxmax(axis=1).str.removeprefix("prob_")
+    # idxmax(axis=1) returns column labels, which are strings here, but the
+    # pandas stubs type it as an integer index. Cast before using .str.
+    best_column = scored[columns].idxmax(axis=1).astype(str)
+    scored["predicted"] = best_column.str.removeprefix("prob_")
     print(scored[["image_id", *columns, "predicted"]].to_string(index=False))
     print(
         "\nNote that the evaluation transform is stochastic, so re-running "
