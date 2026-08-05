@@ -66,12 +66,12 @@ dev = [
     "jupyterlab>=4.2,<5",
     "pytest>=9.0.3,<10", # below 9.0.3 carries PYSEC-2026-1845
     "pytest-cov>=6.0,<8",
-    "ruff>=0.8,<1",
+    "ruff>=0.16.1,<1",
     "mypy>=2.3.0,<3",
     "pip-audit>=2.7,<3",
     "nbstripout>=0.8,<1",
     "pre-commit>=4,<5",
-    "pandas-stubs>=2.2",
+    "pandas-stubs>=3.0.5.260730",
     "types-PyYAML>=6,<7",
 ]
 
