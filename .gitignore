@@ -1,7 +1,6 @@
 # Dataset images: 10,015 dermatoscopic JPEGs, far too large for git.
 # The demo's hundred-image sample is the deliberate exception.
 *.jpg
-!/streamlit/images/*.jpg
 
 # Model weights.
 *.pth
