@@ -74,6 +74,7 @@ dev = [
     "pre-commit>=4,<5",
     "pandas-stubs>=3.0.5.260730",
     "types-PyYAML>=6,<7",
+    "tornado>=6.5.8",  # GHSA-wwv5-g3v4-889x, GHSA-8423-8fgw-73vq; via jupyterlab,
 ]
 
 [tool.hatch.build.targets.wheel]
