@@ -41,3 +41,15 @@ requirements-audit.txt
 # deliberately outside version control. Contents vary by repo and are not
 # reproducible from history -- they're covered by file-level backup instead.
 excluded/
+
+# ---- Update zips ----
+# Temporary archives, extracted in place and then deleted.
+/*-update-*.zip
+
+# ---- Local notes ----
+# A separate local repository, not part of this project.
+/human-against-machine-private/
+# Backstop: notes by these names are never committed here.
+handoff.txt
+backlog.txt
+backup.txt
