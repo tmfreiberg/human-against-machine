@@ -78,6 +78,7 @@ dev = [
     "jupyter-server>=2.21.0",  # CVE-2026-86049; via jupyterlab
     "urllib3>=2.8.0",       # CVE-2026-97687, CVE-2026-97688, CVE-2026-97689
     "virtualenv>=21.7.13",  # PYSEC-2026-4011 to PYSEC-2026-4014
+    "certifi>=2026.10.19",  # GHSA-6q48-6c7w-9gw2; via pip-audit and jupyterlab
 ]
 
 [tool.hatch.build.targets.wheel]
