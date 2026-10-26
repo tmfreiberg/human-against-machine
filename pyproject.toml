@@ -81,6 +81,7 @@ dev = [
     "certifi>=2026.10.19",  # GHSA-6q48-6c7w-9gw2; via pip-audit and jupyterlab
     "filelock>=4.2.1",      # CVE-2026-112907, -112913, -112940; via torch, virtualenv, pip-audit
     "setuptools>=84.1.0",   # GHSA-xmj3-9gf7-h52w; via torch
+    "nbconvert>=7.17.2",    # GHSA alert #65, path traversal; via jupyterlab, jupyter-server
 ]
 
 [tool.hatch.build.targets.wheel]
