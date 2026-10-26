@@ -77,8 +77,10 @@ dev = [
     "tornado>=6.5.8",  # GHSA-wwv5-g3v4-889x, GHSA-8423-8fgw-73vq; via jupyterlab,
     "jupyter-server>=2.21.0",  # CVE-2026-86049; via jupyterlab
     "urllib3>=2.8.0",       # CVE-2026-97687, CVE-2026-97688, CVE-2026-97689
-    "virtualenv>=21.7.13",  # PYSEC-2026-4011 to PYSEC-2026-4014
+    "virtualenv>=21.14.9",  # PYSEC-2026-4011 to -4014; CVE-2026-113714 to -113725
     "certifi>=2026.10.19",  # GHSA-6q48-6c7w-9gw2; via pip-audit and jupyterlab
+    "filelock>=4.2.1",      # CVE-2026-112907, -112913, -112940; via torch, virtualenv, pip-audit
+    "setuptools>=84.1.0",   # GHSA-xmj3-9gf7-h52w; via torch
 ]
 
 [tool.hatch.build.targets.wheel]
