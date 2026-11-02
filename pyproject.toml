@@ -82,6 +82,7 @@ dev = [
     "filelock>=4.2.1",      # CVE-2026-112907, -112913, -112940; via torch, virtualenv, pip-audit
     "setuptools>=84.1.0",   # GHSA-xmj3-9gf7-h52w; via torch
     "nbconvert>=7.17.2",    # GHSA alert #65, path traversal; via jupyterlab, jupyter-server
+    "msgpack>=1.2.3",       # CVE-2026-114613; via cachecontrol, pip-audit
 ]
 
 [tool.hatch.build.targets.wheel]
