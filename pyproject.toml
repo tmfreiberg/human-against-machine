@@ -117,6 +117,10 @@ filterwarnings = [
     # warnings filters internally, so a scoped catch_warnings does not hold.
     # Matched by message rather than blanket-ignoring DeprecationWarning.
     "ignore:The feature will be removed:DeprecationWarning",
+    # anyio's pytest plugin (anyio comes in through Jupyter; no test uses it)
+    # imports _pytest.python.CallSpec2, deprecated in pytest 9.2. Drop this
+    # line once anyio imports CallSpec instead.
+    "ignore:_pytest.python.CallSpec2 has been renamed",
 ]
 
 [tool.coverage.run]
